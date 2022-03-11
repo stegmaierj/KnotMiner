@@ -39,6 +39,12 @@ After having installed these requirements, download the *KnotMiner* toolbox from
 - PrincipalAxisLength2: Length of the first principal component measured in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly.
 - PrincipalAxisLength3: Length of the first principal component measured in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly.
 
+| Tables   |      Are      |  Cool |
+|----------|:-------------:|------:|
+| col 1 is |  left-aligned | $1600 |
+| col 2 is |    centered   |   $12 |
+| col 3 is | right-aligned |    $1 |
+
 
 ## Keyboard Shortcuts
 
