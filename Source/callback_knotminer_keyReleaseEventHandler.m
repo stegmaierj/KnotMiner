@@ -67,6 +67,7 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
         parameters.currentParameter = 2;
         parameters.showClassification = false;
         parameters.showDetections = true;
+        callback_knotminer_perform_clustering;
 
         parameters.dirtyFlag = true;
                 

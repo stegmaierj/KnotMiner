@@ -61,7 +61,7 @@ if (isempty(parameters.indicesKnots))
 end
 
 %% extract the positional features and scale with the current z-scale
-positionFeatures = [callback_hccminer_find_single_feature(dorgbez, 'xpos'), callback_hccminer_find_single_feature(dorgbez, 'ypos'), callback_hccminer_find_single_feature(dorgbez, 'zpos')];
+positionFeatures = [callback_knotminer_find_single_feature(dorgbez, 'xpos'), callback_knotminer_find_single_feature(dorgbez, 'ypos'), callback_knotminer_find_single_feature(dorgbez, 'zpos')];
 zscale = parameter.gui.knotminer.axialVoxelSize / parameter.gui.knotminer.lateralVoxelSize;
 disp(['Lateral voxel size: ' num2str(parameter.gui.knotminer.lateralVoxelSize) ', Axial voxel size: ' num2str(parameter.gui.knotminer.axialVoxelSize) ', z-scale: ' num2str(zscale) '. Select KnotMiner from the dropdown menu and set physical spacing if needed ...']);
 

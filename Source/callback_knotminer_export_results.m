@@ -43,7 +43,7 @@ if (~isfield(parameters, 'segImage') || isempty(parameters.segImage))
 end
 
 %% get the position features
-positionFeatures = [callback_hccminer_find_single_feature(dorgbez, 'xpos'), callback_hccminer_find_single_feature(dorgbez, 'ypos'), callback_hccminer_find_single_feature(dorgbez, 'zpos')];
+positionFeatures = [callback_knotminer_find_single_feature(dorgbez, 'xpos'), callback_knotminer_find_single_feature(dorgbez, 'ypos'), callback_knotminer_find_single_feature(dorgbez, 'zpos')];
 parameters.tempClusterIndex = callback_knotminer_find_single_feature(dorgbez, 'tempClusterIndex');
 if (isempty(parameters.tempClusterIndex) || parameters.tempClusterIndex == 0)
     callback_knotminer_perform_clustering;
