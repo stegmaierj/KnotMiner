@@ -2,21 +2,25 @@
 
 This repository contains the SciXMiner extension KnotMiner that is targeted to provide tools for a qualitative and quantitaitve analysis of knots / density accumulations in 3D microscopy images. As a precondition, KnotMiner requires a raw 3D image containing cells that are fluorescently tagged with a nuclear marker and an assotiated segmentation image where each cell has a unique integer label. The segmented nuclei can be analyzed with KnotMiner and a graphical user interface allows to manually specify thresholds based on extracted single-cell features and to cluster remaining detections into isolated knots.
 
-## Prerequisites
+## 1. Prerequisites
 
 The *KnotMiner* toolbox is an extension of the MATLAB toolbox SciXMiner [1] and assumes SciXMiner is properly installed on your system.
 
 After having installed these requirements, download the *KnotMiner* toolbox from this repository and copy the contents of the `Source` folder into the folder `%SCIXMINERROOT/application_specials/knotminer/%` folder of SciXMiner (just create the subfolder if it does not exist yet). Open up MATLAB and start SciXMiner using the command `scixminer` and enable the toolbox using *Extras -> Choose application-specific extension packages...* . Restart SciXMiner and you should see a new menu entry called *KnotMiner*.
 
-## Typical Analysis Steps
+## 2. Typical Analysis Steps
 
-1. *Import a new project*: From the KnotMiner menu, call the command `KnotMiner -> Import -> Import New Image/Mask Pair` to import a new pair of raw image and segmentation. The input dialogs will first ask for the raw image file (3D tiff file) and then for the segmentation image (3D tiff file with a unique integer label per cell and label 0 as the background). Hint: on macOS the file open dialog does not directly mention which image to open. When pressing *Options* in the file open dialog, the requested image is listed in the file type selection dropdown. The import script will generate a `*.prjz` project file that can subsequently be loaded in SciXMiner using `File -> Load Project`.
+### 2.1 Import a New Project
+From the KnotMiner menu, call the command `KnotMiner -> Import -> Import New Image/Mask Pair` to import a new pair of raw image and segmentation. The input dialogs will first ask for the raw image file (3D tiff file) and then for the segmentation image (3D tiff file with a unique integer label per cell and label 0 as the background). Hint: on macOS the file open dialog does not directly mention which image to open. When pressing *Options* in the file open dialog, the requested image is listed in the file type selection dropdown. The import script will generate a `*.prjz` project file that can subsequently be loaded in SciXMiner using `File -> Load Project`.
 
-2. As KnotMiner does not know in advance which physical spacing was used for the acquisition, make sure to provide this information. For this, use the dropdown menu in  the middle of the SciXMiner GUI and select *KnotMiner*. Use this dialog to enter the lateral and axial voxel size in micrometers. Moreover, you can specify the *Neighborhood Radius* parameter used for neighborhood computations, *e.g.*, for density computations.
+### 2.2 Setup Project Parameters
+As KnotMiner does not know in advance which physical spacing was used for the acquisition, make sure to provide this information. For this, use the dropdown menu in  the middle of the SciXMiner GUI and select *KnotMiner*. Use this dialog to enter the lateral and axial voxel size in micrometers. Moreover, you can specify the *Neighborhood Radius* parameter used for neighborhood computations, *e.g.*, for density computations.
 
-3. You can now start with the manual specification of the thresholds. To do this, call the command `KnotMiner -> Show -> Annotation GUI`. The GUI will ask for the raw image associated with the project file. Select it and after that the raw image with superimposed detections should appear.
+### 2.3 Manual Threshold Specification and Clustering
+You can now start with the manual specification of the thresholds. To do this, call the command `KnotMiner -> Show -> Annotation GUI`. The GUI will ask for the raw image associated with the project file. Select it and after that the raw image with superimposed detections should appear.
 
-3.1 The first step is the intensity threshold. The parameter display on the top lefthand side shows which parameter is currently active. Use the *Up Arrow* and *Down Arrow* buttons to increase or decrease a value. The display should be immediately updated to show the effect of the threshold. Specify the threshold such that all bright cells that are potentially part of a knot remain green. Using the *C, D, F* keys, you can toggle the visualization. *C* shows the current classification (red detections are below the threshold, green detections above the threshold). *D* allows you to toggle the visibility of detections that are below the threshold. *F* shows a color-coded scatter plot of the current feature.
+#### 2.3.1 Setup the Intensity Threshold
+The first step is the intensity threshold. The parameter display on the top lefthand side shows which parameter is currently active. Use the *Up Arrow* and *Down Arrow* buttons to increase or decrease a value. The display should be immediately updated to show the effect of the threshold. Specify the threshold such that all bright cells that are potentially part of a knot remain green. Using the *C, D, F* keys, you can toggle the visualization. *C* shows the current classification (red detections are below the threshold, green detections above the threshold). *D* allows you to toggle the visibility of detections that are below the threshold. *F* shows a color-coded scatter plot of the current feature.
 
 3.2 Once you're satisfied with the density threshold, hit the *2* key to switch to the density threshold adjustment. The controls are exactly as described in 3.1 but now the threshold operates on the density feature. Specify the density threshold such that all dense regions that are potentially knots remain green.
 
