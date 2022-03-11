@@ -57,3 +57,9 @@ felder(fc).visible(end).bez_pos_rel = [-280 -3];
 felder(fc).visible(end+1).i_control_elements = 'CE_knotminer_AxialVoxelSize';
 felder(fc).visible(end).pos = [300 420];
 felder(fc).visible(end).bez_pos_rel = [-280 -3];
+
+%%%%%%%%%%%%%%%%%%
+% Element: Linke/Rechte Einzüge verwenden
+felder(fc).visible(end+1).i_control_elements = 'CE_knotminer_ParameterStepSize';
+felder(fc).visible(end).pos = [300 390];
+felder(fc).visible(end).bez_pos_rel = [-280 -3];

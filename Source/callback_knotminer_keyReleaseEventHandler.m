@@ -81,9 +81,13 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
 		parameters.dirtyFlag = true;
 
     %% toggle the color map
+    elseif (strcmp(evt.Character, 'x'))
+        parameters.axesEqual = ~parameters.axesEqual;
+        parameters.dirtyFlag = true;
+
+    %% toggle the color map
     elseif (strcmp(evt.Character, 'c'))
-        parameters.showDetections = false;
-        parameters.showClassification = true;
+        parameters.showClassification = ~parameters.showClassification;
         parameters.dirtyFlag = true;
 
     elseif (strcmp(evt.Character, 'd'))
@@ -95,8 +99,7 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
 
     %% toggle add/delete/deselect mode
     elseif (strcmp(evt.Character, 'f'))
-        parameters.showDetections = true;
-        parameters.showClassification = false;
+        parameters.showDetections = ~parameters.showDetections;
         parameters.dirtyFlag = true;
 
         %% toggle info text
@@ -130,6 +133,10 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
     
 	%% set current cells as manually checked
 	elseif (strcmp(evt.Key, 'uparrow'))
+
+        parameters.intensityStep = parameter.gui.knotminer.parameterStepSize;
+        parameters.densityStep = parameter.gui.knotminer.parameterStepSize;
+
         if (parameters.currentParameter == 0)
             parameters.intensityThreshold = max(0, min(parameters.intensityThreshold + parameters.intensityStep, 255));
         elseif (parameters.currentParameter == 1)
@@ -147,6 +154,10 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
         parameters.dirtyFlag = true;
 
     elseif (strcmp(evt.Key, 'downarrow'))
+
+        parameters.intensityStep = parameter.gui.knotminer.parameterStepSize;
+        parameters.densityStep = parameter.gui.knotminer.parameterStepSize;
+
         if (parameters.currentParameter == 0)
             parameters.intensityThreshold = max(0, min(parameters.intensityThreshold - parameters.intensityStep, 255));
         elseif (parameters.currentParameter == 1)

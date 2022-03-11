@@ -40,6 +40,7 @@ if (parameters.dirtyFlag == true)
     figure(parameters.mainFigure); clf; hold on;
     set(gca, 'Units', 'normalized', 'Position', [0,0,1,1]);
     set(gca, 'YDir', 'reverse');
+    set(gca, 'Color', 'k')
 
     %% get the current raw image either as projection or as slice
     if (parameters.maximumProjection == true)
@@ -146,6 +147,10 @@ if (parameters.dirtyFlag == true)
     %% reset the axis
     imageSize = size(parameters.rawImage);
     axis([0, imageSize(1), 0, imageSize(2)]);
+
+    if (parameters.axesEqual)
+        axis equal;
+    end
 
     %% show the group ids and counts
     if (parameters.showParameterPanel == true)

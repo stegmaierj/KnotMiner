@@ -177,3 +177,42 @@ els(ec).bezeichner.handle = [];
 els(ec).bezeichner.breite = 250;
 %height of the explanation text for the element in points
 els(ec).bezeichner.hoehe = 20;
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% knotminer for the second control element (here: a edit field for numbers)
+ec = ec + 1; 
+
+%Tag for the handling of the elements, the name must be unique
+els(ec).tag = 'CE_knotminer_ParameterStepSize';
+%number of the handle - added as the last column for the handle matrix 
+els(ec).uihd_code = [newcolumn ec]; 
+els(ec).handle = [];
+%name shown in the GUI
+els(ec).name = 'Parameter Step Size';
+%example for a checkbox
+els(ec).style = 'edit';
+%the variable can be use for the access to the element value
+els(ec).variable = 'parameter.gui.knotminer.parameterStepSize';
+%default value at the start
+els(ec).default = 1;
+%defines if the values should be integer values (=1) or not
+els(ec).ganzzahlig = 1;
+%defines the possible values, Inf is also possible
+els(ec).wertebereich = {0, Inf};
+%help text in the context menu
+els(ec).tooltext = 'Step size used for parameter incrementation.';
+%callback for any action at the element, can be empty
+%the function should be exist in the path of the knotminer package
+els(ec).callback = '';
+%width of the element in points
+els(ec).breite = 200;
+%hight of the element in points
+els(ec).hoehe = 20;
+%optional handle of an additional GUI element with an explanation text
+els(ec).bezeichner.uihd_code = [newcolumn+1 ec];
+els(ec).bezeichner.handle = [];
+%width of the explanation text for the element in points
+els(ec).bezeichner.breite = 250;
+%height of the explanation text for the element in points
+els(ec).bezeichner.hoehe = 20;
