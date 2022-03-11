@@ -26,7 +26,8 @@ After having installed these requirements, download the *KnotMiner* toolbox from
 
 3.5 Finally, you can have a look at the quantifications for the current clustering. The key *Q* provides you with box plots and histograms of cluster sizes and the key *V* displays a 3D scatter plot of the current cluster results. Using the *E* button, you can export the current results to disk in form of a knot image (a segmentation image where the cells associated to a knot all have the same id) and a spreadsheet file where each row contains the quantifications of a knot. The following features are extracted:
 
-- ClusterIndex: Unique index of a knot/cluster. This id corresponds to the id in the knot image.
+| ClusterIndex | Unique index of a knot/cluster. This id corresponds to the id in the knot image. |
+
 - NumCellsInCluster: The number of cells in the respective cluster (use this, e.g., to reject small clusters).
 - Volume: The volume of the knot in number of voxels. To convert it to a volume in µm^3, multiply it with the physical spacing accordingly. 
 - EquivDiameter: The diameter of a sphere of the same volume measuresd in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly.
