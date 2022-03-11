@@ -6,7 +6,7 @@ This repository contains the SciXMiner extension KnotMiner that is targeted to p
 
 The *KnotMiner* toolbox is an extension of the MATLAB toolbox SciXMiner [1] and assumes SciXMiner is properly installed on your system.
 
-After having installed these requirements, download the *KnotMiner* toolbox from this repository and copy the contents of the `Source` folder into the folder `%SCIXMINERROOT/application_specials/knotminer/%` folder of SciXMiner (just create the subfolder if it does not exist yet). Open up MATLAB and start SciXMiner using the command `scixminer` and enable the toolbox using *Extras -> Choose application-specific extension packages...* . Restart SciXMiner and you should see a new menu entry called *KnotMiner*.
+After having installed these requirements, download the *KnotMiner* toolbox from this repository and copy the contents of the `Source` folder into the folder `%SCIXMINERROOT%/application_specials/knotminer/` folder of SciXMiner (just create the subfolder if it does not exist yet). Open up MATLAB and start SciXMiner using the command `scixminer` and enable the toolbox using *Extras -> Choose application-specific extension packages...* . Restart SciXMiner and you should see a new menu entry called *KnotMiner*.
 
 ## 2. Typical Analysis Steps
 
