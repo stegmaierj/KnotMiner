@@ -26,9 +26,11 @@ After having installed these requirements, download the *KnotMiner* toolbox from
 
 3.5 Finally, you can have a look at the quantifications for the current clustering. The key *Q* provides you with box plots and histograms of cluster sizes and the key *V* displays a 3D scatter plot of the current cluster results. Using the *E* button, you can export the current results to disk in form of a knot image (a segmentation image where the cells associated to a knot all have the same id) and a spreadsheet file where each row contains the quantifications of a knot. The following features are extracted:
 
+| Feature      |  Description |
 | ClusterIndex | Unique index of a knot/cluster. This id corresponds to the id in the knot image. |
+| NumCellsInCluster |  The number of cells in the respective cluster (use this, e.g., to reject small clusters).|
 
-- NumCellsInCluster: The number of cells in the respective cluster (use this, e.g., to reject small clusters).
+
 - Volume: The volume of the knot in number of voxels. To convert it to a volume in µm^3, multiply it with the physical spacing accordingly. 
 - EquivDiameter: The diameter of a sphere of the same volume measuresd in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly.
 - Extent: Ratio of volume and bounding box volume. Maximum value of 1 obtained for box-like volumes and lower values indicate that the bounding box is not entirely filled by the object.
@@ -38,12 +40,6 @@ After having installed these requirements, download the *KnotMiner* toolbox from
 - PrincipalAxisLength1: Length of the first principal component measured in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly.
 - PrincipalAxisLength2: Length of the first principal component measured in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly.
 - PrincipalAxisLength3: Length of the first principal component measured in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly.
-
-| Tables   |      Are      |  Cool |
-|----------|:-------------:|------:|
-| col 1 is |  left-aligned | $1600 |
-| col 2 is |    centered   |   $12 |
-| col 3 is | right-aligned |    $1 |
 
 
 ## Keyboard Shortcuts
