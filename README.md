@@ -14,3 +14,19 @@ After having installed these requirements, download the *KnotMiner* toolbox from
 
 
 ## Keyboard Shortcuts
+
+- 1;2;3: Toggles the visualization of intensity, density, int.+dens., clustering
+- Up Arrow: Inrease current parameter value
+- Down Arrow: Decrease current parameter value
+- A: Perform automatic parameter identification
+- C: Show current classification
+- F: Show current feature values
+- P: Toggle parameter
+- Q: Show quantification of current clustering
+- M: Toggle max. projection vs. slices
+- V: Show scatter plot of the current clustering
+- +/-: Increase/decrease the numer of z-slices to be displayed when in slice mode.
+- H: Show this help dialog so you probably already know about this button :-)
+- Wheel Up/Down: Scroll through stack (only effective in slice mode)
+
+- Hint: In case key presses show no effect, left click once on the image and try hitting the button again. This only happens if the window loses the focus.
