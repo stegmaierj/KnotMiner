@@ -28,6 +28,7 @@
 radius = parameter.gui.knotminer.neighborhoodRadius;
 zscale = parameter.gui.knotminer.axialVoxelSize / parameter.gui.knotminer.lateralVoxelSize;
 positionFeatures = [callback_knotminer_find_single_feature(dorgbez, 'xpos'), callback_knotminer_find_single_feature(dorgbez, 'ypos'), callback_knotminer_find_single_feature(dorgbez, 'zpos')];
+volumeFeature = [callback_knotminer_find_single_feature(dorgbez, 'volume')];
 
 disp(['Lateral voxel size: ' num2str(parameter.gui.knotminer.lateralVoxelSize) ', Axial voxel size: ' num2str(parameter.gui.knotminer.axialVoxelSize) ', z-scale: ' num2str(zscale) '. Select KnotMiner from the dropdown menu and set physical spacing if needed ...']);
 
@@ -38,18 +39,32 @@ validIndices = find(d_org(:,1) ~= 0);
 positions = squeeze(d_org(validIndices, positionFeatures));
 positions(:,3) = positions(:,3) * zscale;
 
+volumes = squeeze(d_org(validIndices, volumeFeature));
+meanVolume = mean(volumes);
+
 currentKDTree = KDTreeSearcher(positions);
 idx = rangesearch(currentKDTree, positions, radius);
 
 %% add new entry to d_org
 d_org(:,end+1) = 0;
-newFeatureIndex = size(d_org,2);
+densityFeatureIndex = size(d_org,2);
 dorgbez = char(dorgbez(1:end,:), ['density-r=' num2str(radius)]);
+
+d_org(:,end+1) = 0;
+vwDensityFeatureIndex = size(d_org,2);
+dorgbez = char(dorgbez(1:end,:), ['vol-weighted-density-r=' num2str(radius)]);
+
 aktparawin;
 
 %% set the density based on the number of neighbors within the given radius
 disp('Computing density ...');
 for j=generate_rowvector(validIndices)
-    d_org(j,newFeatureIndex) = length(idx{j});
+
+    %% compute density as the number of neighbors
+    d_org(j,densityFeatureIndex) = length(idx{j});
+
+    %% compute volume-weighted density
+    currentVolumes = volumes(idx{j});
+    d_org(j,vwDensityFeatureIndex) = sum(currentVolumes / meanVolume);
 end
 disp('Done.');

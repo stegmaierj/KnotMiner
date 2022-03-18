@@ -29,6 +29,7 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
     global parameters; %#ok<GVMIS> 
     global parameter; %#ok<GVMIS> 
     global ind_auswahl; %#ok<NUSED> 
+    global dorgbez;
 
     parameters.xLim = get(gca, 'XLim');
     parameters.yLim = get(gca, 'YLim');
@@ -126,6 +127,16 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
             callback_knotminer_show_3D_scatter_plot;
             colormap turbo;
         end
+
+    elseif (strcmp(evt.Character, 'w'))
+        parameters.useVolumeWeightedDensity = ~parameters.useVolumeWeightedDensity;
+
+        if (parameters.useVolumeWeightedDensity)
+            parameters.densityIndex = callback_knotminer_find_single_feature(dorgbez, 'vol-weighted-density-r=20');
+        else
+            parameters.densityIndex = callback_knotminer_find_single_feature(dorgbez, 'density-r=20');
+        end
+        parameters.dirtyFlag = true;
 
         %% toggle info text
     elseif (strcmp(evt.Character, 'q'))

@@ -80,7 +80,13 @@ if (parameters.dirtyFlag == true)
     elseif (parameters.visualizationMode == 2)
 
         %% mode 2: show density intensity
-        visualizationModeString = 'Density';
+        if (parameters.useVolumeWeightedDensity == false)
+            visualizationModeString = 'Density';
+        else
+            visualizationModeString = 'Density (Vol. Weighted)';
+        end
+
+        %% get the feature values
         featureValues = d_org(validIndices,parameters.densityIndex);
 
         %% perform knot classification only using density feature

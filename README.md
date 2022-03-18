@@ -1,4 +1,4 @@
-# KnotMiner - A SciXMiner Toolbox to Analyse Knots in 3D Fluorescence Microscopy Images
+# KnotMiner – A SciXMiner Toolbox to Analyse Knots in 3D Fluorescence Microscopy Images
 
 This repository contains the SciXMiner extension KnotMiner that is targeted to provide tools for a qualitative and quantitaitve analysis of knots / density accumulations in 3D microscopy images. As a precondition, KnotMiner requires a raw 3D image containing cells that are fluorescently tagged with a nuclear marker and an assotiated segmentation image where each cell has a unique integer label. The segmented nuclei can be analyzed with KnotMiner and a graphical user interface allows to manually specify thresholds based on extracted single-cell features and to cluster remaining detections into isolated knots.
 
@@ -45,8 +45,8 @@ Finally, you can have a look at the quantifications for the current clustering. 
 | ConvexVolume | Volume of the convex hull of the knot measured in voxels. To convert it to a volume in µm^3, multiply it with the physical spacing accordingly. |
 | SurfaceArea | Surface area of the knot measured in voxels. To convert it to an area in µm^2, multiply it with the physical spacing accordingly. |
 | PrincipalAxisLength1 | Length of the first principal component measured in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly. |
-| PrincipalAxisLength2 | Length of the first principal component measured in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly. |
-| PrincipalAxisLength3 | Length of the first principal component measured in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly. |
+| PrincipalAxisLength2 | Length of the second principal component measured in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly. |
+| PrincipalAxisLength3 | Length of the third principal component measured in voxels. To convert it to a length in µm, multiply it with the physical spacing accordingly. |
 
 
 
@@ -66,8 +66,9 @@ Finally, you can have a look at the quantifications for the current clustering. 
 | Q | Show quantification of current clustering|
 | M | Toggle max. projection vs. slices|
 | V | Show scatter plot of the current clustering|
+| X | Toggle the aspect ratio of the aXes|
 | +/- | Increase/decrease the numer of z-slices to be displayed when in slice mode.|
-| H | Show this help dialog so you probably already know about this button :-)|
+| H | Show help dialog with keyboard shortcuts |
 | Wheel Up/Down | Scroll through stack (only effective in slice mode)|
 | | |
 | Hint | In case key presses show no effect, left click once on the image and try hitting the button again. This only happens if the window loses the focus.|

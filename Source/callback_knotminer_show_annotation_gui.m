@@ -98,6 +98,7 @@ parameters.densityStep = 1;
 parameters.minPointsDBSCAN = 4;
 parameters.epsilonDBSCAN = 12;
 parameters.showParameterPanel = true;
+parameters.useVolumeWeightedDensity = false;
 
 %% open the main figure
 parameters.mainFigure = figure;

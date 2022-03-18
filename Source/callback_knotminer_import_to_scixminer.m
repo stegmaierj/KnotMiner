@@ -38,8 +38,44 @@ addpath([parameter.allgemein.pfad_gaitcad filesep 'application_specials' filesep
 %% load the image files
 [rawImageFile, rawImageFolder] = uigetfile({'*.tif;*.tiff;*.TIF;*.TIFF', 'Raw Image (*.tif;*.tiff;*.TIF;*.TIFF)'}, 'Please select the raw image (*.tif)!');
 [labelImageFile, labelImageFolder] = uigetfile({'*.tif;*.tiff;*.TIF;*.TIFF', 'Segmentation Image (*.tif;*.tiff;*.TIF;*.TIFF)'}, 'Please select the segmentation mask image (*.tif)!');
-rawImage = loadtiff([rawImageFolder rawImageFile]);
+
+if (sum(rawImageFile == 0) || sum(labelImageFile == 0))
+    disp('No valid input files specified. Aborting import ...');
+    return;
+end
+
+rawImage = double(loadtiff([rawImageFolder rawImageFile]));
 labelImage = loadtiff([labelImageFolder labelImageFile]);
+
+%% perform stack normalization
+prompt = {'Perform Normalization? (0/1):','Normalization Quantile (default=0.003):'};
+dlgtitle = 'Input Image Normalization';
+dims = [1 35];
+definput = {'1','0.003'};
+answer = inputdlg(prompt,dlgtitle,dims,definput);
+
+performNormalization  = str2double(answer{1}) > 0;
+normalizationQuantile = str2double(answer{2});
+
+if (performNormalization == true)
+    
+    rawImageNormalized = zeros(size(rawImage));
+
+    for i=1:size(rawImage,3)
+
+        if (max(squeeze(labelImage(:,:,i)), [], 'all') > 0)
+            lowerQuantile = quantile(rawImage(:,:,i), normalizationQuantile, [1,2]);
+            upperQuantile = quantile(rawImage(:,:,i), 1-normalizationQuantile, [1,2]);
+    
+            rawImageNormalized(:,:,i) = (rawImage(:,:,i) - lowerQuantile) / (upperQuantile - lowerQuantile);
+        end
+    end
+
+    rawImageNormalized(rawImageNormalized < 0) = 0;
+    rawImageNormalized(rawImageNormalized > 1) = 1;
+    rawImageNormalized = rawImageNormalized * 255;
+    rawImage = rawImageNormalized;
+end
 
 %% extract the region props
 regionProps = regionprops3(labelImage, rawImage, 'Centroid', 'EquivDiameter', 'Extent', 'Solidity', 'PrincipalAxisLength', 'SurfaceArea', 'Volume', 'Orientation', 'ConvexVolume', 'MeanIntensity', 'MaxIntensity', 'MinIntensity');
