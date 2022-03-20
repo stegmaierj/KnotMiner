@@ -31,7 +31,10 @@ If you're also done with the density threshold, hit the *3* button to see the ef
 #### 2.3.4 Perform Clustering of Knot Candidates
 Once the knot candidates are properly selected, you can apply a DBSCAN clustering algorithm. Hit the *4* button to enter the clustering visualization. The clustering is only performed on the detections that are above your manually specified thresholds. There are two parameters for the clustering `Epsilon` and `MinPoints`. In short, `Epsilon` specifies the radius arround each of the detections where the algorithm searches for neighbors. `MinPoints` specifies how many points should be present in the neighborhood of a point to be considered as a dense point. Points that have at least `MinPoints` neighbors within their `Epsilon`-sphere are considered core points and are part of a cluster. Points that have a dense point among their neighbors but have less than `MinPoints` neighbors are considered points on the boundary of a cluster. Points that do not have sufficient neighbors in their `Epsilon`-sphere and also don't contain any dense points in their neighborhood are considered noise points. See https://en.wikipedia.org/wiki/DBSCAN for all details of the algorithm. Again, the parameters can be increased/decreased with the *Up/Down Arrows* and the key *P* allows to switch between the parameters. The arrow keys only affect the currently selected parameter.
 
-#### 2.3.5 Visual Analysis and Result Export
+#### 2.3.5 Manual Refinement of the Selected Cells
+You can also include/exclude cells from the clustering. This is useful for groups of cells that cannot be included/excluded via the global thresholds. Use the `+`/`-` key to switch to the manual selection mode and then circle the desired cells with the mouse (freehand selection tool). The selected group of cells will then be included/excluded in all subsequent steps, no matter how the thresholds are set. This works in maximum projection mode and in the slice visualization. Note that selecting cells in the maximum projection mode might be misleading as cells of all slices are visible and will be selected even though, they might not be close in the z-direction. So make sure your selection is reasonable using the slice view.
+
+#### 2.3.6 Visual Analysis and Result Export
 Finally, you can have a look at the quantifications for the current clustering. The key *Q* provides you with box plots and histograms of cluster sizes and the key *V* displays a 3D scatter plot of the current cluster results. Using the *E* button, you can export the current results to disk in form of a knot image (a segmentation image where the cells associated to a knot all have the same id) and a spreadsheet file where each row contains the quantifications of a knot. The following features are extracted:
 
 | Feature      |  Description |
@@ -62,12 +65,17 @@ Finally, you can have a look at the quantifications for the current clustering. 
 | D | Show/hide detections below the threshold or noise clusters|
 | E | Export results for the current parameters|
 | F | Show current feature values|
+| I | Show/hide info for detection closest to the mouse cursor |
+| L | Load previous parameter settings and manual selection |
+| O | Open previous parameter settings and manual selection (automatically selects a file called `*_KnotMiner.mat` that is stored next to the regular SciXMiner project.) |
 | P | Toggle parameter|
 | Q | Show quantification of current clustering|
+| S | Save current parameter settings and manual selection (automatically saves a file called `*_KnotMiner.mat` that is stored next to the regular SciXMiner project.) |
 | M | Toggle max. projection vs. slices|
 | V | Show scatter plot of the current clustering|
 | X | Toggle the aspect ratio of the aXes|
-| +/- | Increase/decrease the numer of z-slices to be displayed when in slice mode.|
+| +/- | Include/exclude cells via freehand selection tool (e.g., helpful if not all cells can be selected via threshold). |
+| ./, | Increase/decrease the numer of z-slices to be displayed when in slice mode.|
 | H | Show help dialog with keyboard shortcuts |
 | Wheel Up/Down | Scroll through stack (only effective in slice mode)|
 | | |
