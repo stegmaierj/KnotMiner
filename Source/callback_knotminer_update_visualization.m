@@ -55,10 +55,17 @@ if (parameters.dirtyFlag == true)
     end
     imagesc(cat(3, currentImage, currentImage, currentImage));
 
+    %% copy the current in/exclude indices
+    currentIncludeIndices = parameters.includeIndices;
+    currentExcludeIndices = parameters.excludeIndices;
+
     %% find the current indices
     validIndices = 1:size(d_org,1);
     if (parameters.maximumProjection == false)
         validIndices = find(abs(round(d_org(:,parameters.positionIndices(3))) - parameters.currentSlice) <= parameters.zSliceRange);
+
+        currentIncludeIndices((abs(round(d_org(currentIncludeIndices,parameters.positionIndices(3))) - parameters.currentSlice) > parameters.zSliceRange)) = [];
+        currentExcludeIndices((abs(round(d_org(currentExcludeIndices,parameters.positionIndices(3))) - parameters.currentSlice) > parameters.zSliceRange)) = [];
     end
 
     %% visualize detections and raw data depending on the mode    
@@ -73,6 +80,12 @@ if (parameters.dirtyFlag == true)
         if (parameters.showClassification)
             indicesNoKnots = intersect(validIndices, find(d_org(:,parameters.meanIntensityIndex) <= parameters.intensityThreshold));
             indicesKnots = intersect(validIndices, find(d_org(:,parameters.meanIntensityIndex) > parameters.intensityThreshold));
+
+            %% add manually (de)selected knot candidates
+            indicesKnots(ismember(indicesKnots, currentExcludeIndices)) = [];
+            indicesNoKnots(ismember(indicesNoKnots, currentIncludeIndices)) = [];
+            indicesKnots = unique([indicesKnots; currentIncludeIndices]);
+            indicesNoKnots = unique([indicesNoKnots; currentExcludeIndices]);
         end
         caxis([0, max(d_org(:,parameters.meanIntensityIndex))]);
         colormap turbo;
@@ -93,6 +106,12 @@ if (parameters.dirtyFlag == true)
         if (parameters.showClassification)
             indicesNoKnots = intersect(validIndices, find(d_org(:,parameters.densityIndex) <= parameters.densityThreshold));
             indicesKnots = intersect(validIndices, find(d_org(:,parameters.densityIndex) > parameters.densityThreshold));
+
+            %% add manually (de)selected knot candidates
+            indicesKnots(ismember(indicesKnots, currentExcludeIndices)) = [];
+            indicesNoKnots(ismember(indicesNoKnots, currentIncludeIndices)) = [];
+            indicesKnots = unique([indicesKnots; currentIncludeIndices]);
+            indicesNoKnots = unique([indicesNoKnots; currentExcludeIndices]);
         end
         caxis([0, max(d_org(:,parameters.densityIndex))]);
         colormap turbo;
@@ -104,6 +123,12 @@ if (parameters.dirtyFlag == true)
         indicesNoKnots = intersect(validIndices, find((d_org(:,parameters.densityIndex) <= parameters.densityThreshold) | (d_org(:,parameters.meanIntensityIndex) <= parameters.intensityThreshold)));
         indicesKnots = intersect(validIndices, find((d_org(:,parameters.densityIndex) > parameters.densityThreshold) & (d_org(:,parameters.meanIntensityIndex) > parameters.intensityThreshold)));
 
+        %% add manually (de)selected knot candidates    
+        indicesKnots(ismember(indicesKnots, currentExcludeIndices)) = [];
+        indicesNoKnots(ismember(indicesNoKnots, currentIncludeIndices)) = [];
+        indicesKnots = unique([indicesKnots; currentIncludeIndices]);
+        indicesNoKnots = unique([indicesNoKnots; currentExcludeIndices]);
+
     else
         %% mode 3: show knot classification
         visualizationModeString = 'Knot Clustering';
@@ -113,10 +138,15 @@ if (parameters.dirtyFlag == true)
         end
 
         %% perform knot classification only using both features
-        %indicesNoKnots = intersect(validIndices, find((d_org(:,parameters.densityIndex) <= parameters.densityThreshold) | (d_org(:,parameters.meanIntensityIndex) <= parameters.intensityThreshold)));
-        %indicesKnots = intersect(validIndices, find((d_org(:,parameters.densityIndex) > parameters.densityThreshold) & (d_org(:,parameters.meanIntensityIndex) > parameters.intensityThreshold)));
         indicesNoKnots = intersect(validIndices, find(d_org(:, parameters.tempClusterIndex) <= 0));
         indicesKnots = intersect(validIndices, find(d_org(:, parameters.tempClusterIndex) > 0));
+
+        %% add manually (de)selected knot candidates
+        indicesKnots(ismember(indicesKnots, currentExcludeIndices)) = [];
+        indicesNoKnots(ismember(indicesNoKnots, currentIncludeIndices)) = [];
+        indicesKnots = unique([indicesKnots; currentIncludeIndices]);
+        indicesNoKnots = unique([indicesNoKnots; currentExcludeIndices]);
+
         featureValuesKnots = d_org(indicesKnots, parameters.tempClusterIndex);
         featureValuesNoKnots = d_org(indicesNoKnots, parameters.tempClusterIndex);
         if (max(d_org(:,parameters.tempClusterIndex)) ~= 0)
@@ -127,10 +157,6 @@ if (parameters.dirtyFlag == true)
 
     %% show current classification
     if (parameters.showClassification)
-%         if (parameters.visualizationMode == 3)
-%             plot(d_org(indicesKnots, parameters.positionIndices(1)), d_org(indicesKnots, parameters.positionIndices(2)), '*g');
-%             plot(d_org(indicesNoKnots, parameters.positionIndices(1)), d_org(indicesNoKnots, parameters.positionIndices(2)), '*r');
-%         else
         plot(d_org(indicesKnots, parameters.positionIndices(1)), d_org(indicesKnots, parameters.positionIndices(2)), 'og');
             
         if (parameters.showNoiseDetections == true)
@@ -182,6 +208,9 @@ if (parameters.dirtyFlag == true)
             text('String', 'Clustering Mode: Manual (Mean Int. / Density)', 'FontSize', parameters.fontSize, 'Color', textColors{1}, 'Units', 'normalized', 'Position', [0.01 0.08], 'Background', 'black');
         end
     end
+
+    parameters.infoLabel = text('String', 'Info Label', 'FontSize', parameters.fontSize, 'Color', textColors{1}, 'Background', 'black');
+    parameters.infoPoint = plot(0,0, '*r');
 
     %% set dirty flag to false
     parameters.dirtyFlag = false;

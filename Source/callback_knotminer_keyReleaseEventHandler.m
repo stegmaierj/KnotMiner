@@ -29,6 +29,7 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
     global parameters; %#ok<GVMIS> 
     global parameter; %#ok<GVMIS> 
     global ind_auswahl; %#ok<NUSED> 
+    global d_org;
     global dorgbez;
 
     parameters.xLim = get(gca, 'XLim');
@@ -103,9 +104,47 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
         parameters.showDetections = ~parameters.showDetections;
         parameters.dirtyFlag = true;
 
-        %% toggle info text
     elseif (strcmp(evt.Character, 'i'))
         parameters.showInfo = ~parameters.showInfo;
+
+    elseif (strcmp(evt.Character, '+') || strcmp(evt.Character, '-'))
+        
+        if (isfield(parameters, 'selectedRegion') && ~isempty(parameters.selectedRegion) && ishandle(parameters.selectedRegion))
+            delete(parameters.selectedRegion);
+        end
+        parameters.selectedRegion = imfreehand;
+
+        if (~isempty(parameters.selectedRegion))
+
+            selectionMask = parameters.selectedRegion.createMask;
+            
+            currentPositions = d_org(:, 3:5);
+            selectedIndices = zeros(size(currentPositions,1), 1);
+            for i=1:size(currentPositions,1)
+    
+                isInMask = selectionMask(round(currentPositions(i,2)), round(currentPositions(i,1))) > 0;
+                isInZRange = (currentPositions(i,3) >= (parameters.currentSlice - parameters.zSliceRange) && currentPositions(i,3) <= (parameters.currentSlice + parameters.zSliceRange));
+    
+                if ((isInMask && parameters.maximumProjection == true) || ...
+                    (isInMask && isInZRange && parameters.maximumProjection == false))
+                    selectedIndices(i) = 1;
+                end
+            end
+    
+            if (strcmp(evt.Character, '+'))
+                parameters.includeIndices = unique([parameters.includeIndices; find(selectedIndices)]);
+                parameters.excludeIndices(ismember(parameters.excludeIndices, parameters.includeIndices)) = []; 
+            else
+                parameters.excludeIndices = unique([parameters.excludeIndices; find(selectedIndices)]);
+                parameters.includeIndices(ismember(parameters.includeIndices, parameters.excludeIndices)) = [];
+            end
+    
+            delete(parameters.selectedRegion);
+            callback_knotminer_perform_clustering;
+            parameters.dirtyFlag = true;
+        else
+            disp('No region selected, skipping...');
+        end
 
     %% toggle info text
     elseif (strcmp(evt.Character, 'a'))
@@ -189,12 +228,22 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
         parameters.dirtyFlag = true;
 
     %% set current cells as manually checked
-	elseif (strcmp(evt.Character, '+'))
+	elseif (strcmp(evt.Character, 's'))
+
+        callback_knotminer_save_settings;
+        
+    %% set current cells as manually checked
+	elseif (strcmp(evt.Character, 'l'))
+
+        callback_knotminer_load_settings;
+
+    %% set current cells as manually checked
+	elseif (strcmp(evt.Character, '.'))
         parameters.zSliceRange = min(size(parameters.rawImage, 3), parameters.zSliceRange + 1);
         parameters.dirtyFlag = true;
 
     %% set current cells as manually checked
-	elseif (strcmp(evt.Character, '-'))
+	elseif (strcmp(evt.Character, ','))
         parameters.zSliceRange = max(0, parameters.zSliceRange - 1);
         parameters.dirtyFlag = true;
     end
@@ -202,3 +251,4 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
     %% update the visualization
     callback_knotminer_update_visualization;
 end
+

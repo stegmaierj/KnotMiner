@@ -54,6 +54,11 @@ else
     parameters.indicesKnots = find((d_org(:,parameters.densityIndex) > parameters.densityThreshold) & (d_org(:,parameters.meanIntensityIndex) > parameters.intensityThreshold));
 end
 
+parameters.indicesKnots(ismember(parameters.indicesKnots, parameters.excludeIndices)) = [];
+parameters.indicesNoKnots(ismember(parameters.indicesNoKnots, parameters.includeIndices)) = [];
+parameters.indicesKnots = unique([parameters.indicesKnots; parameters.includeIndices]);
+parameters.indicesNoKnots = unique([parameters.indicesNoKnots; parameters.excludeIndices]);
+
 %% check if a valid selection of potential knot candidates exists
 if (isempty(parameters.indicesKnots))
     disp('Please select knot candidates first using the manual thresholds or the auto threshold, before trying to cluster them!');
