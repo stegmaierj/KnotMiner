@@ -47,6 +47,9 @@ end
 rawImage = double(loadtiff([rawImageFolder rawImageFile]));
 labelImage = loadtiff([labelImageFolder labelImageFile]);
 
+%% subtract minimum value to have the segments start at 0
+labelImage = labelImage - min(labelImage(:));
+
 %% perform stack normalization
 prompt = {'Perform Normalization? (0/1):','Normalization Quantile (default=0.003):'};
 dlgtitle = 'Input Image Normalization';

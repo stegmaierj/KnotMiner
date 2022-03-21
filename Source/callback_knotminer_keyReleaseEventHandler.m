@@ -123,7 +123,7 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
             for i=1:size(currentPositions,1)
     
                 isInMask = selectionMask(round(currentPositions(i,2)), round(currentPositions(i,1))) > 0;
-                isInZRange = (currentPositions(i,3) >= (parameters.currentSlice - parameters.zSliceRange) && currentPositions(i,3) <= (parameters.currentSlice + parameters.zSliceRange));
+                isInZRange = (round(currentPositions(i,3)) >= (parameters.currentSlice - parameters.zSliceRange) && round(currentPositions(i,3)) <= (parameters.currentSlice + parameters.zSliceRange));
     
                 if ((isInMask && parameters.maximumProjection == true) || ...
                     (isInMask && isInZRange && parameters.maximumProjection == false))
