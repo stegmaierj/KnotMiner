@@ -40,6 +40,7 @@ if (~isfield(parameters, 'segImage') || isempty(parameters.segImage))
     %% load the image files
     [segImageFile, segImageFolder] = uigetfile({'*.tif;*.tiff;*.TIF;*.TIFF', 'Segmentation Image (*.tif;*.tiff;*.TIF;*.TIFF)'}, 'Please select the segmented image (*.tif)!');
     parameters.segImage = loadtiff([segImageFolder segImageFile]);
+    parameters.segImage = parameters.segImage - min(parameters.segImage(:));
 end
 
 %% get the position features
