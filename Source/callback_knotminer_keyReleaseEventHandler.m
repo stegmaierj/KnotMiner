@@ -109,9 +109,16 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
 
     elseif (strcmp(evt.Character, '+') || strcmp(evt.Character, '-'))
         
-        if (isfield(parameters, 'selectedRegion') && ~isempty(parameters.selectedRegion) && ishandle(parameters.selectedRegion))
+        if (parameters.isInSelectionMode == true)
+            disp('Region selection still ongoing, please finish current region, first!');
+            return;
+        end
+        
+        if (isfield(parameters, 'selectedRegion'))
+            parameters.selectedRegion
             delete(parameters.selectedRegion);
         end
+        parameters.isInSelectionMode = true;
         parameters.selectedRegion = imfreehand;
 
         if (~isempty(parameters.selectedRegion))
@@ -140,6 +147,8 @@ function callback_knotminer_keyReleaseEventHandler(~,evt)
             end
     
             delete(parameters.selectedRegion);
+            parameters.isInSelectionMode = false;
+            
             callback_knotminer_perform_clustering;
             parameters.dirtyFlag = true;
         else

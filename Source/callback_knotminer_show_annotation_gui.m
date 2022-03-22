@@ -105,6 +105,7 @@ if (loadPreviousSettings == false)
     parameters.maximumProjection = true;
     parameters.zSliceRange = 0;
     
+    parameters.isInSelectionMode = false;
     parameters.currentSlice = 1;
     parameters.currentParameter = 0;
     parameters.densityThreshold = max(min(d_org(idxDensity == 1, parameters.densityIndex)), min(d_org(idxDensity == 2, parameters.densityIndex)));
