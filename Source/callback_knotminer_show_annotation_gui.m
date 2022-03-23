@@ -55,10 +55,17 @@ end
 if (~isfield(parameters, 'rawImage') || isempty(parameters.rawImage))
 
     %% load the image files
-    if (~isfield(parameters, 'rawImageFile') || ~isfile(parameters.rawImageFile))
+    if (~isfield(parameters, 'rawImageFile') || ~isstring(parameters.rawImageFile) || ~isfile(parameters.rawImageFile))
         [rawImageFile, rawImageFolder] = uigetfile({'*.tif;*.tiff;*.TIF;*.TIFF', 'Raw Image (*.tif;*.tiff;*.TIF;*.TIFF)'}, 'Please select the raw image (*.tif)!');
+        
+        if (rawImageFile == 0)
+            disp('No valid input file specified. Closing the annotation GUIs ...');
+            return;
+        end
+        
         parameters.rawImageFile = [rawImageFolder rawImageFile];
     end
+    
     parameters.rawImage = double(loadtiff(parameters.rawImageFile));
 
     minValue = min(parameters.rawImage(:));

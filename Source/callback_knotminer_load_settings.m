@@ -45,5 +45,13 @@ if (~isempty(parametersOld))
 end
 parameter.gui.knotminer = parametersSciXMiner;
 
+parameters.densityIndex = callback_knotminer_find_single_feature(dorgbez, 'density-r=20');
+
+%% compute density if it doesn't exist yet
+if (isempty(parameters.densityIndex) || parameters.densityIndex == 0)
+    callback_knotminer_compute_density_feature;
+    parameters.densityIndex = callback_knotminer_find_single_feature(dorgbez, 'density-r=20');
+end
+
 %% display success message
 disp(['Current settings successfully loaded from ' loadFile]);
