@@ -36,11 +36,16 @@ outputPath = [parameter.projekt.pfad filesep 'Results' filesep];
 if (~isfolder(outputPath)); mkdir(outputPath); end
 
 %% preload image files if not done yet
-if (~isfield(parameters, 'segImage') || isempty(parameters.segImage))
+if (~isfield(parameters, 'segImage') || isempty(parameters.segImage) || max(parameters.segImage(:)) ~= size(d_org,1))
     %% load the image files
     [segImageFile, segImageFolder] = uigetfile({'*.tif;*.tiff;*.TIF;*.TIFF', 'Segmentation Image (*.tif;*.tiff;*.TIF;*.TIFF)'}, 'Please select the segmented image (*.tif)!');
     parameters.segImage = loadtiff([segImageFolder segImageFile]);
     parameters.segImage = parameters.segImage - min(parameters.segImage(:));
+    
+    if (max(parameters.segImage(:)) ~= size(d_org,1))
+        disp('Potentially wrong image selected! Make sure to select the segmentation image for exporting! Skipping ...');
+        return;
+    end    
 end
 
 %% get the position features
@@ -57,9 +62,8 @@ knotIndices = find(d_org(:, parameters.tempClusterIndex) > 0);
 regionProps = regionprops(parameters.segImage, 'PixelIdxList');
 
 %% add nuclei belonging to knots to the knot image
+sumDifferentIndices = 0;
 for i=knotIndices'
-    currentPosition = round(d_org(i, positionFeatures));
-    currentLabel = parameters.segImage(currentPosition(2), currentPosition(1), currentPosition(3));
     knotImage(regionProps(i).PixelIdxList) = d_org(i, parameters.tempClusterIndex);
 end
 
